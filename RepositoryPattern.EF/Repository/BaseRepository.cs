@@ -14,7 +14,22 @@ namespace RepositoryPattern.EF.Repository
 
         }
 
-        public T Find(Expression<Func<T, bool>> match, string[] includes = null)
+        public T Add(T entity)
+        {
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
+            return entity;
+
+        }
+
+        public IEnumerable<T> Addrange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().AddRange(entities);
+            _context.SaveChanges();
+            return entities;
+        }
+
+        public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
             if (includes != null)
@@ -24,10 +39,10 @@ namespace RepositoryPattern.EF.Repository
                     query = query.Include(include);
                 }
             }
-            return query.SingleOrDefault(match);
+            return query.SingleOrDefault(criteria);
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> match, string[] includes = null)
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
             if (includes != null)
@@ -37,18 +52,18 @@ namespace RepositoryPattern.EF.Repository
                     query = query.Include(include);
                 }
             }
-            return query.Where(match).ToList();
+            return query.Where(criteria).ToList();
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> match, int take, int skip)
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int take, int skip)
         {
 
-            return _context.Set<T>().Where(match).Skip(skip).Take(take).ToList();
+            return _context.Set<T>().Where(criteria).Skip(skip).Take(take).ToList();
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> match, int? take, int? skip, Expression<Func<T, object>> orderBy = null, string orderByDirection = "ASC")
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int? take, int? skip, Expression<Func<T, object>> orderBy = null, string orderByDirection = "ASC")
         {
-            IQueryable<T> query = _context.Set<T>().Where(match);
+            IQueryable<T> query = _context.Set<T>().Where(criteria);
             if (take.HasValue)
                 query = query.Take(take.Value);
             if (skip.HasValue)

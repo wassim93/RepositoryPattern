@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RepositoryPattern.Core.Models;
-using RepositoryPattern.Core.Repository;
+using RepositoryPattern.Core;
 
 namespace RepositoryPattern.Controllers
 {
@@ -8,21 +7,21 @@ namespace RepositoryPattern.Controllers
     [ApiController]
     public class AuthorController : ControllerBase
     {
-        private readonly IBaseRepository<Author> _authorRepository;
-        public AuthorController(IBaseRepository<Author> authorRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public AuthorController(IUnitOfWork unitOfWork)
         {
-            _authorRepository = authorRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public IActionResult GetById()
         {
-            return Ok(_authorRepository.GetById(1));
+            return Ok(_unitOfWork.Authors.GetById(1));
         }
         [HttpGet("GetbyIdAsync")]
         public async Task<IActionResult> GetByIdAsync()
         {
-            return Ok(await _authorRepository.GetByIdAsync(1));
+            return Ok(await _unitOfWork.Authors.GetByIdAsync(1));
         }
     }
 }
