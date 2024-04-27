@@ -6,7 +6,7 @@ namespace RepositoryPattern.Core
     public interface IUnitOfWork : IDisposable
     {
         IBaseRepository<Author> Authors { get; }
-        IBaseRepository<Book> Books { get; }
+        IBookRepository Books { get; }
         int Complete();
 
     }

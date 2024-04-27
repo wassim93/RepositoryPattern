@@ -17,7 +17,6 @@ namespace RepositoryPattern.EF.Repository
         public T Add(T entity)
         {
             _context.Set<T>().Add(entity);
-            _context.SaveChanges();
             return entity;
 
         }
@@ -25,28 +24,27 @@ namespace RepositoryPattern.EF.Repository
         public IEnumerable<T> Addrange(IEnumerable<T> entities)
         {
             _context.Set<T>().AddRange(entities);
-            _context.SaveChanges();
             return entities;
         }
 
         public void Attach(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Attach(entity);
         }
 
         public int Count()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Count();
         }
 
         public int Count(Expression<Func<T, bool>> criteria)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Count(criteria);
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(entity);
         }
 
         public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
@@ -130,7 +128,8 @@ namespace RepositoryPattern.EF.Repository
 
         public T Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Update(entity);
+            return entity;
         }
     }
 }

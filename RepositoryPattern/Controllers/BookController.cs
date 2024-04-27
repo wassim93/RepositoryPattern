@@ -51,7 +51,9 @@ namespace RepositoryPattern.Controllers
         [HttpPost("AddBook")]
         public IActionResult AddBook()
         {
-            return Ok(_unitOfWork.Books.Add(new Book { Title = "book3", AuthorId = 1 }));
+            var book = _unitOfWork.Books.Add(new Book { Title = "book3", AuthorId = 1 });
+            _unitOfWork.Complete();
+            return Ok(book);
         }
 
         [HttpPost("AddManyBooks")]
@@ -62,7 +64,10 @@ namespace RepositoryPattern.Controllers
             books.Add(new Book { Title = "book 5", AuthorId = 1 });
             books.Add(new Book { Title = "book 6", AuthorId = 1 });
 
-            return Ok(_unitOfWork.Books.Addrange(books));
+            var res = _unitOfWork.Books.Addrange(books);
+            _unitOfWork.Complete();
+
+            return Ok(res);
         }
     }
 }
