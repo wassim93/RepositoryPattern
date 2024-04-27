@@ -29,6 +29,26 @@ namespace RepositoryPattern.EF.Repository
             return entities;
         }
 
+        public void Attach(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count(Expression<Func<T, bool>> criteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -106,6 +126,11 @@ namespace RepositoryPattern.EF.Repository
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
+        }
+
+        public T Update(T entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
